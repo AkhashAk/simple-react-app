@@ -12,7 +12,7 @@ export default function CreateDocket({ dockets, setDockets, onSubmit, closeModal
     noOfHrs: 0,
     ratePerHr: ""
   });
-  const [poData, setPoData] = useState([]);
+  const [poData, setPOData] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [purchaseOrders, setPurchaseOrders] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState('');
@@ -20,10 +20,10 @@ export default function CreateDocket({ dockets, setDockets, onSubmit, closeModal
 
   useEffect(() => {
     async function loadData() {
-      const response = await axiosURL.get("poData");
-      let parsedData = response.data;
+      const { data } = await axiosURL.get("poData");
+      //Filling up supplier information
       let previousSupplier = "";
-      parsedData.map(item => {
+      data.map(item => {
         if (item.Supplier === "") {
           item.Supplier = previousSupplier;
         } else {
@@ -31,8 +31,8 @@ export default function CreateDocket({ dockets, setDockets, onSubmit, closeModal
         }
         return true;
       });
-      setPoData([...parsedData]);
-      const uniqueSuppliers = [...new Set(parsedData.map(item => item.Supplier))];
+      setPOData([...data]);
+      const uniqueSuppliers = [...new Set(data.map(item => item.Supplier))];
       setSuppliers(uniqueSuppliers);
     }
     loadData();
@@ -44,13 +44,16 @@ export default function CreateDocket({ dockets, setDockets, onSubmit, closeModal
 
   const handleSupplierChange = (event) => {
     const selectedSupplier = event.target.value;
-    setPurchaseOrders(getPurchaseOrdersForSupplier(selectedSupplier, poData)); // Filter purchase orders based on the selected supplier.
+    // Filter purchase orders based on the selected supplier.
+    setPurchaseOrders(getPurchaseOrdersForSupplier(selectedSupplier, poData));
     setSelectedSupplier(selectedSupplier);
   };
 
   const handleSubmit = async () => {
-    // Create a docket object with form inputs and selectedSupplier, selectedPurchaseOrder.
-    if (docket.name === "" || docket.startTime === "" || docket.endTime === "" || docket.noOfHrs === 0 || docket.ratePerHr === "" || selectedSupplier === "" || selectedPurchaseOrder === "") return alert("Input all the required fields!");
+    // Creating a docket object with form inputs and selectedSupplier, selectedPurchaseOrder.
+    if (docket.name === "" || docket.startTime === "" || docket.endTime === "" || docket.noOfHrs === 0 || docket.ratePerHr === "" || selectedSupplier === "" || selectedPurchaseOrder === "") {
+      return alert("Input all the required fields!");
+    }
     const newDocket = {
       ...docket,
       supplierName: selectedSupplier,
@@ -83,11 +86,21 @@ export default function CreateDocket({ dockets, setDockets, onSubmit, closeModal
           </p>
         </div>
         <form className='form-div'>
-          <label>Name:&nbsp;&nbsp;<Input type="text" required onChange={e => setDocket({ ...docket, name: e.target.value })} /></label>
-          <label>Start Time:&nbsp;&nbsp;<Input type="time" required onChange={e => setDocket({ ...docket, startTime: e.target.value })} /></label>
-          <label>End Time:&nbsp;&nbsp;<Input type="time" required onChange={e => setDocket({ ...docket, endTime: e.target.value })} /></label>
-          <label>No. of hours worked:&nbsp;&nbsp;<Input type="number" required onChange={e => setDocket({ ...docket, noOfHrs: parseInt(e.target.value) })} /></label>
-          <label>Rate per hour:&nbsp;&nbsp;<Input type="text" required onChange={e => setDocket({ ...docket, ratePerHr: e.target.value })} /></label>
+          <label>Name:&nbsp;&nbsp;
+            <Input type="text" required onChange={e => setDocket({ ...docket, name: e.target.value })} />
+          </label>
+          <label>Start Time:&nbsp;&nbsp;
+            <Input type="time" required onChange={e => setDocket({ ...docket, startTime: e.target.value })} />
+          </label>
+          <label>End Time:&nbsp;&nbsp;
+            <Input type="time" required onChange={e => setDocket({ ...docket, endTime: e.target.value })} />
+          </label>
+          <label>No. of hours worked:&nbsp;&nbsp;
+            <Input type="number" required onChange={e => setDocket({ ...docket, noOfHrs: parseInt(e.target.value) })} />
+          </label>
+          <label>Rate per hour:&nbsp;&nbsp;
+            <Input type="text" required onChange={e => setDocket({ ...docket, ratePerHr: e.target.value })} />
+          </label>
           <label>Supplier Name:&nbsp;&nbsp;
             <select value={selectedSupplier} onChange={handleSupplierChange}>
               <option value="">Select Supplier</option>

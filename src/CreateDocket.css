@@ -20,10 +20,6 @@
     flex-direction: column;
 }
 
-.btn-submit {
-    background-color: #42a942;
-}
-
 .close {
     cursor: pointer;  border: none;
     color: #000000;
@@ -42,9 +38,4 @@
 
 .modal-content {
     margin-bottom: 2rem;
-}
-
-.modal-footer {
-    display: flex;
-    justify-content: space-evenly;
 }

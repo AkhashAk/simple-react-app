@@ -17,7 +17,7 @@ export default function DocketList() {
   };
 
   const loadData = async () => {
-    const response = await axiosURL.get("/docket");
+    const response = await axiosURL.get("docket");
     setDockets(response.data);
   }
 
@@ -32,6 +32,9 @@ export default function DocketList() {
 
   return (
     <div>
+      <h1 className="header-content" >
+        List of Purchase Orders
+      </h1>
       <div className='btn-div'>
         <Button color='google plus' onClick={handleButtonClick}>
           <Icon name='plus' />Create Docket
