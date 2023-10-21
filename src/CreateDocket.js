@@ -29,6 +29,7 @@ export default function CreateDocket({ dockets, setDockets, onSubmit, closeModal
         } else {
           previousSupplier = item.Supplier;
         }
+        return true;
       });
       setPoData([...parsedData]);
       const uniqueSuppliers = [...new Set(parsedData.map(item => item.Supplier))];
