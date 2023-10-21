@@ -20,7 +20,7 @@ export default function CreateDocket({ dockets, setDockets, onSubmit, closeModal
 
   useEffect(() => {
     async function loadData() {
-      const response = await axiosURL.get("/poData");
+      const response = await axiosURL.get("poData");
       let parsedData = response.data;
       let previousSupplier = "";
       parsedData.map(item => {
@@ -57,7 +57,7 @@ export default function CreateDocket({ dockets, setDockets, onSubmit, closeModal
       purchaseOrder: selectedPurchaseOrder,
     };
 
-    await axiosURL.post("poData", newDocket).then(() => {
+    await axiosURL.post("docket", newDocket).then(() => {
       setDockets([...dockets, newDocket]);
       onSubmit();
       setTimeout(() => {
