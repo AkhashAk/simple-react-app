@@ -136,12 +136,6 @@ input[type=file]::file-selector-button:hover {
   margin-top: 2rem;
 }
 
-.header-content {
-  text-align: center;
-  padding-top: 1rem;
-  margin-bottom: 0;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

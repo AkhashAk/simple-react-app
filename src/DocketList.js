@@ -32,9 +32,6 @@ export default function DocketList() {
 
   return (
     <div>
-      <h1 className="header-content" >
-        User Management System
-      </h1>
       <div className='btn-div'>
         <Button color='google plus' onClick={handleButtonClick}>
           <Icon name='plus' />Create Docket
