@@ -1,0 +1,50 @@
+.modal-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(15, 14, 14, 0.5);
+    z-index: 3; /* Ensure the pagination appears above other content */
+}
+
+.modal {
+    border-radius: 25px;
+    padding: 1rem;
+    background-color: white;
+    width: 75em;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-submit {
+    background-color: #42a942;
+}
+
+.close {
+    cursor: pointer;  border: none;
+    color: #000000;
+    padding: 0.5rem 1rem;
+    border-color: #000000;
+    border-radius: 5px;
+    cursor: pointer;
+    /* box-shadow: 5px 5px 5px #ccc; */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 2rem;
+}
+
+.modal-content {
+    margin-bottom: 2rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-evenly;
+}
