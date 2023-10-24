@@ -60,15 +60,13 @@ export default function UpdateDocket({ currentDocket, setCurrentDocket, onSubmit
       const uniqueSuppliers = [...new Set(data.map(item => item.Supplier))];
       setSuppliers(uniqueSuppliers);
     }
-    return () => {
-      loadData();
-    }
+    loadData();
   }, []);
 
   useEffect(() => {
     setPurchaseOrders(poData.filter(item => item.Supplier === selectedSupplier));
   }, [poData, selectedSupplier]);
-  
+
   return (
     <div
       className="modal-container"
