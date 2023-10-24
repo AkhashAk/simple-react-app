@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import "./CreateDocket.css";
 import { Input } from 'semantic-ui-react';
 import { axiosURL } from "./http-common";
 

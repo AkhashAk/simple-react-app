@@ -3,13 +3,20 @@ import { Button, Icon, Table } from "semantic-ui-react";
 import { createPortal } from "react-dom";
 import CreateDocket from './CreateDocket';
 import { axiosURL } from "./http-common";
+import UpdateDocket from './UpdateDocket';
 
 export default function DocketList() {
   const [dockets, setDockets] = useState([]);
+  const [currentDocket, setCurrentDocket] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
-  const handleButtonClick = () => {
+  const handleCreateModalBtnClick = () => {
     setModalOpen(!modalOpen);
+  };
+
+  const handleCreateUpdateModalBtnClick = () => {
+    setUpdateModalOpen(!updateModalOpen);
   };
 
   const handleSubmitClick = () => {
@@ -19,6 +26,11 @@ export default function DocketList() {
   const loadData = async () => {
     const response = await axiosURL.get("docket");
     setDockets(response.data);
+  }
+
+  const updateDocket = async (docket) => {
+    setCurrentDocket(docket);
+    setUpdateModalOpen(true);
   }
 
   const deleteDocket = async (id) => {
@@ -36,7 +48,7 @@ export default function DocketList() {
         List of Purchase Orders
       </h1>
       <div className='btn-div'>
-        <Button color='google plus' onClick={handleButtonClick}>
+        <Button color='google plus' onClick={handleCreateModalBtnClick}>
           <Icon name='plus' />Create Docket
         </Button>
       </div>
@@ -46,7 +58,17 @@ export default function DocketList() {
             dockets={dockets}
             setDockets={setDockets}
             onSubmit={handleSubmitClick}
-            closeModal={handleButtonClick}
+            closeModal={handleCreateModalBtnClick}
+          />,
+          document.body
+        )}
+      {updateModalOpen &&
+        createPortal(
+          <UpdateDocket
+            currentDocket={currentDocket}
+            setCurrentDocket={setCurrentDocket}
+            onSubmit={handleSubmitClick}
+            closeModal={handleCreateUpdateModalBtnClick}
           />,
           document.body
         )}
@@ -61,6 +83,7 @@ export default function DocketList() {
               <Table.HeaderCell textAlign='center' width={1}>Rate per hour</Table.HeaderCell>
               <Table.HeaderCell textAlign='center' width={1}>Supplier Name</Table.HeaderCell>
               <Table.HeaderCell textAlign='center' width={2}>Purchase Order</Table.HeaderCell>
+              <Table.HeaderCell textAlign='center' width={1}></Table.HeaderCell>
               <Table.HeaderCell textAlign='center' width={1}></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -78,7 +101,10 @@ export default function DocketList() {
                       <Table.Cell textAlign='center' singleLine>{docket.supplierName}</Table.Cell>
                       <Table.Cell>{docket.purchaseOrder}</Table.Cell>
                       <Table.Cell textAlign='center' collapsing>
-                        <Button size="medium" color="red" className="button-delete" onClick={() => deleteDocket(docket.id)}>Delete</Button>
+                        <Button size="medium" color="facebook" className="button-delete" onClick={() => updateDocket(docket)}>Edit</Button>
+                      </Table.Cell>
+                      <Table.Cell textAlign='center' collapsing>
+                        <Button size="medium" color="google plus" className="button-delete" onClick={() => deleteDocket(docket.id)}>Delete</Button>
                       </Table.Cell>
                     </Table.Row>
                   </React.Fragment>
